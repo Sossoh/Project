@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>옷입히기 게임</title>
+</head>
+<body>
+    <div class="character">
+        <img src="몸/몸.png" alt="캐릭터 이미지">
+
+        <div class="eye" id="eye1"><img src="눈/눈.png" alt="눈1"></div>
+        <div class="eye" id="eye2"><img src="눈/반짝눈.png" alt="눈2"></div>
+        <div class="eye" id="eye3"><img src="눈/부담ㄴ눈.png" alt="눈3"></div>
+        <div class="eye" id="eye4"><img src="눈/안반짝.png" alt="눈4"></div>
+        <div class="eye" id="eye5"><img src="눈/갈매기.png" alt="눈5"></div>
+        <div class="eye" id="eye6"><img src="눈/화나.png" alt="눈6"></div>
+
+        <div class="mouth" id="mouth1"><img src="입/놀람.png" alt="입1"></div>
+        <div class="mouth" id="mouth2"><img src="입/오.png" alt="입2"></div>
+        <div class="mouth" id="mouth3"><img src="입/활짝.png" alt="입3"></div>
+        <div class="mouth" id="mouth4"><img src="입/웃는.png" alt="입4"></div>
+        <div class="mouth" id="mouth5"><img src="입/음.png" alt="입5"></div>
+
+
+        <div class="hair" id="hair1"><img src="머리/ㄹㅇ.png" alt="머리1"></div>
+        <div class="hair" id="hair2"><img src="머리/랑ㄹ아.png" alt="머리2"></div>
+        <div class="hair" id="hair3"><img src="머리/김장.png" alt="머리3"></div>
+        <div class="hair" id="hair4"><img src="머리/긴머.png" alt="머리4"></div>
+        <div class="hair" id="hair5"><img src="머리/모히.png" alt="머리5"></div>
+        <div class="hair" id="hair6"><img src="머리/머리.png" alt="머리6"></div>
+        <div class="hair" id="hair7"><img src="머리/뽈글.png" alt="머리7"></div>
+        <div class="hair" id="hair8"><img src="머리/파란머리.png" alt="머리8"></div>
+        <div class="hair" id="hair9"><img src="머리/새로운 머리.png" alt="머리9"></div>
+        <div class="hair" id="hair10"><img src="머리/포니.png" alt="머리10"></div>
+        <div class="hair" id="hair11"><img src="머리/새로운머리3.png" alt="머리11"></div>
+
+
+
+        <div class="down" id="down1"><img src="하의/바지.png" alt="바지 "></div>
+        <div class="down" id="down2"><img src="하의/치마.png" alt="치마"></div>
+        <div class="down" id="down3"><img src="하의/치마2.png" alt="치마2"></div>
+        <div class="down" id="down4"><img src="하의/슬랙스.png" alt="슬랙스"></div>
+        <div class="down" id="down5"><img src="하의/하의.png" alt="긴치마"></div>
+
+
+        <div class="top" id="top1"><img src="상의/셔츠.png" alt="셔츠"></div>
+        <div class="top" id="top2"><img src="상의/옷.png" alt="옷"></div>
+        <div class="top" id="top3"><img src="상의/옷2.png" alt="옷2"></div>
+        <div class="top" id="top4"><img src="상의/옷3.png" alt="옷3"></div>
+        <div class="top" id="top5"><img src="상의/후드티.png" alt="후드티"></div>
+
+        <div class="rx" id="rx1"><img src="겉옷/겉옷.png" alt="겉옷3"></div>
+        <div class="rx" id="rx2"><img src="겉옷/겉옷2.png" alt="겉옷2"></div>
+      
+    </div>
+
+    <div class="button-group">
+        <button onclick="changeEye('eye1')">눈 1</button>
+        <button onclick="changeEye('eye2')">눈 2</button>
+        <button onclick="changeEye('eye3')">눈 3</button>
+        <button onclick="changeEye('eye4')">눈 4</button>
+        <button onclick="changeEye('eye5')">눈 5</button>
+        <button onclick="changeEye('eye6')">눈 6</button>
+    </div>
+
+      <!-- 입 버튼 그룹 -->
+      <div class="button-group">
+        <button onclick="changeMouth('mouth1')">입 1</button>
+        <button onclick="changeMouth('mouth2')">입 2</button>
+        <button onclick="changeMouth('mouth3')">입 3</button>
+        <button onclick="changeMouth('mouth4')">입 4</button>
+        <button onclick="changeMouth('mouth5')">입 5</button>
+    </div>
+
+    <!-- 머리 버튼 그룹 -->
+    <div class="button-group">
+        <button onclick="changeHair('hair1')">머리 1</button>
+        <button onclick="changeHair('hair2')">머리 2</button>
+        <button onclick="changeHair('hair3')">머리 3</button>
+        <button onclick="changeHair('hair4')">머리 4</button>
+        <button onclick="changeHair('hair5')">머리 5</button>
+        <button onclick="changeHair('hair6')">머리 6</button>
+        <button onclick="changeHair('hair7')">머리 7</button>
+        <button onclick="changeHair('hair8')">머리 8</button>
+        <button onclick="changeHair('hair9')">머리 9</button>
+        <button onclick="changeHair('hair10')">머리 10</button>
+        <button onclick="changeHair('hair11')">머리 11</button>
+    </div>
+
+
+    <!-- 하의 버튼 그룹 -->
+    <div class="button-group">
+        <button onclick="changedown('down1')">하의 1</button>
+        <button onclick="changedown('down2')">하의 2</button>
+        <button onclick="changedown('down3')">하의 3</button>
+        <button onclick="changedown('down4')">하의 4</button>
+        <button onclick="changedown('down5')">하의 5</button>
+    </div>
+
+    <!-- 상의 버튼 그룹 -->
+    <div class="button-group">
+        <button onclick="changeTop('top1')">상의 1</button>
+        <button onclick="changeTop('top2')">상의 2</button>
+        <button onclick="changeTop('top3')">상의 3</button>
+        <button onclick="changeTop('top4')">상의 4</button>
+        <button onclick="changeTop('top5')">상의 5</button>
+    </div>
+
+    <div class="button-group">
+        <button onclick="changeRx('rx1')">겉옷 1</button>
+        <button onclick="changeRx('rx2')">겉옷 2</button>
+    </div>
+    
+
+    <script src="scripts.js"></script>
+</body>
+</html>
