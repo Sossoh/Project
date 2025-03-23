@@ -35,7 +35,7 @@
 ### 📚 영단어 외우기 게임
 - 단어 카드 매칭 게임
 - 퀴즈 및 테스트 기능
-- 반복 학습을 위한 AI 추천 단어 시스템
+- AI 활용 단어추출
 - 점수 및 랭킹 시스템
 
 ---
@@ -61,17 +61,3 @@
 - **배포 환경**: 추후 결정 (웹/모바일 플랫폼)
 
 ---
-
-## 📂 프로젝트 구조
-
-```bash
-ecole-capstone/
-├── public/
-├── src/
-│   ├── components/
-│   ├── pages/
-│   ├── assets/
-│   └── App.js
-├── .gitignore
-├── README.md
-└── package.json
