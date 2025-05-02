@@ -1,6 +1,6 @@
 https://sossoh.github.io/Project/
 
-# 🎮 Ecole Capstone Project
+# 🎮 Capstone Project
 
 옷입히기 게임 
 
