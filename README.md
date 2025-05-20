@@ -1,4 +1,4 @@
-[https://sossoh.github.io/Project/book/index.html
+https://sossoh.github.io/Project/%EC%98%B7%EC%9E%85%ED%9E%88%EA%B8%B0/book/
 
 
 🥐 온라인 독서 만담회
