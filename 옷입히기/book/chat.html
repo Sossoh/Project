@@ -7,11 +7,12 @@
   <style>
     body {
       margin: 0;
-      font-family: 'Noto Sans', sans-serif;
-      background-size: cover;
-      background-position: center;
-      display: flex;
       height: 100vh;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center center;
+      display: flex;
+      font-family: 'Noto Sans', sans-serif;
     }
     .left-half {
       width: 50%;
@@ -43,11 +44,13 @@
     }
     .right-half {
       width: 50%;
-      background-color: rgba(255, 255, 255, 0.9);
+      background-color: rgba(255, 255, 255, 0.85);
       padding: 20px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      box-sizing: border-box;
+      backdrop-filter: blur(8px);
     }
     .chat-title {
       font-size: 1.5rem;
@@ -58,31 +61,63 @@
       border: 1px solid #ccc;
       padding: 10px;
       border-radius: 8px;
-      overflow-y: scroll;
-      background-color: #fff;
+      overflow-y: auto;
+      background-color: rgba(255, 255, 255, 0.9);
       margin-bottom: 10px;
+      box-sizing: border-box;
     }
     .chat-input {
       display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
-    .chat-input input {
+    .chat-controls {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .chat-controls button {
+      background-color: #a29bfe;
+      border: none;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .chat-controls button:hover {
+      background-color: #7e78d2;
+    }
+    .nickname-display {
+      font-weight: bold;
+      color: #5a4637;
+    }
+    .chat-input-row {
+      display: flex;
+      gap: 10px;
+    }
+    .chat-input-row input {
       flex: 1;
       padding: 10px;
       border-radius: 6px;
       border: 1px solid #aaa;
       font-size: 16px;
+      box-sizing: border-box;
     }
-    .chat-input button {
-      margin-left: 10px;
-      padding: 10px 20px;
+    .chat-input-row button {
       background-color: #a29bfe;
-      color: white;
       border: none;
+      color: white;
+      padding: 10px 20px;
       border-radius: 6px;
-      cursor: pointer;
       font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
     }
-    .chat-input button:hover {
+    .chat-input-row button:hover {
       background-color: #7e78d2;
     }
   </style>
@@ -94,27 +129,39 @@
   </div>
   <div class="right-half">
     <div class="chat-title">📚 독서 만담 채팅창</div>
+    
+    <div class="chat-controls">
+      <button id="bgmToggle">BGM 켜기</button>
+      <span class="nickname-display" id="nicknameDisplay"></span>
+    </div>
+    
     <div class="chat-box" id="chatBox"></div>
+    
     <div class="chat-input">
-      <input type="text" id="chatInput" placeholder="메시지를 입력하세요..." />
-      <button onclick="sendMessage()">전송</button>
+      <div class="chat-input-row">
+        <input type="text" id="chatInput" placeholder="메시지를 입력하세요..." />
+        <button onclick="sendMessage()">전송</button>
+      </div>
     </div>
   </div>
 
+  <!-- BGM 오디오 태그 -->
+  <audio id="bgmAudio" loop></audio>
+
+  <script src="/socket.io/socket.io.js"></script>
   <script>
-    // 배경 이미지 경로 (책별)
+    // 배경 이미지 설정
     const bgImages = ['bg-cat.jpg', 'bg-veg.jpg', 'bg-law.jpg', 'bg-mosun.jpg'];
-    const bookIndex = parseInt(localStorage.getItem('selectedBookIndex'));
-    if (!isNaN(bookIndex)) {
+    const bookIndex = parseInt(localStorage.getItem('selectedBookIndex')) || 0;
+    if (!isNaN(bookIndex) && bgImages[bookIndex]) {
       document.body.style.backgroundImage = `url('${bgImages[bookIndex]}')`;
     }
 
-    // 아바타 데이터 로드
+    // 아바타 렌더링 (기존 코드 유지)
     const avatarData = JSON.parse(localStorage.getItem('avatar'));
     const avatarDiv = document.getElementById('avatar');
     const bgAvatarDiv = document.getElementById('backgroundAvatar');
 
-    // 폴더 매핑 함수
     function getFolder(type) {
       switch(type) {
         case 'eye': return 'eye';
@@ -130,22 +177,16 @@
 
     function renderAvatar(targetDiv) {
       if (!avatarData) return;
-
-      // 기본 body 이미지 항상 맨 아래에 깔기
       const defaultBodyImg = document.createElement('img');
       defaultBodyImg.src = 'waering/body/b1.png';
       defaultBodyImg.alt = 'default body';
       targetDiv.appendChild(defaultBodyImg);
-
-      // body가 따로 지정돼 있으면 덮어씌우기 (선택사항)
       if (avatarData.body) {
         const bodyImg = document.createElement('img');
         bodyImg.src = `waering/body/${avatarData.body}`;
         bodyImg.alt = 'body';
         targetDiv.appendChild(bodyImg);
       }
-
-      // 나머지 부위 그 위에 쌓기
       for (const [key, fileName] of Object.entries(avatarData)) {
         if (key === 'body') continue;
         const img = document.createElement('img');
@@ -154,9 +195,47 @@
         targetDiv.appendChild(img);
       }
     }
-
     renderAvatar(avatarDiv);
     renderAvatar(bgAvatarDiv);
+
+    // 닉네임 자동 생성 함수
+    function generateNickname() {
+      const nicknames = [
+        '반짝이는 달', '은하수', '별빛', '달빛', '초승달',
+        '별똥별', '황금별', '푸른별', '은빛 달', '행성'
+      ];
+      const randomIndex = Math.floor(Math.random() * nicknames.length);
+      return nicknames[randomIndex];
+    }
+
+    let nickname = localStorage.getItem('chatNickname');
+    if (!nickname) {
+      nickname = generateNickname();
+      localStorage.setItem('chatNickname', nickname);
+    }
+
+    document.getElementById('nicknameDisplay').textContent = `닉네임: ${nickname}`;
+
+    // BGM 파일명 배열 (책별)
+    const bgmFiles = ['book1.mp3', 'book2.mp3', 'book3.mp3', 'book4.mp3'];
+    const bgmAudio = document.getElementById('bgmAudio');
+    const bgmToggleBtn = document.getElementById('bgmToggle');
+
+    // 현재 책에 맞는 BGM 셋팅
+    bgmAudio.src = bgmFiles[bookIndex];
+
+    let isPlaying = false;
+
+    bgmToggleBtn.addEventListener('click', () => {
+      if (isPlaying) {
+        bgmAudio.pause();
+        bgmToggleBtn.textContent = 'BGM 켜기';
+      } else {
+        bgmAudio.play();
+        bgmToggleBtn.textContent = 'BGM 끄기';
+      }
+      isPlaying = !isPlaying;
+    });
 
     // 채팅 전송 함수
     function sendMessage() {
@@ -165,12 +244,15 @@
       const text = input.value.trim();
       if (text) {
         const msg = document.createElement('div');
-        msg.textContent = '🧍: ' + text;
+        msg.textContent = `${nickname}: ${text}`;
         box.appendChild(msg);
         input.value = '';
         box.scrollTop = box.scrollHeight;
       }
     }
+
+    // socket.io는 기존 연결 유지 (필요하면 구현 추가)
+    const socket = io();
   </script>
 </body>
 </html>

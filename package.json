@@ -1,0 +1,22 @@
+{
+  "name": "year2025-semester1",
+  "version": "1.0.0",
+  "description": "실시간채팅",
+  "main": "index.js",
+  "scripts": {
+    "test": "good"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssosoh"
+  },
+  "keywords": [
+    "1566"
+  ],
+  "author": "sohee",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0",
+    "socket.io": "^4.8.1"
+  }
+}
