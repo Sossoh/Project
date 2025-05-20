@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>퀴즈 페이지</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .quiz-container {
+      max-width: 700px;
+      margin: 80px auto;
+      background-color: #fffdf7;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    .quiz-question {
+      font-size: 1.2rem;
+      margin-bottom: 16px;
+    }
+    .quiz-question input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-top: 6px;
+    }
+    .quiz-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .check-result {
+      text-align: center;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <div class="quiz-header">
+      <h2 id="quiz-title">퀴즈</h2>
+      <p id="quiz-instruction">책을 잘 읽었는지 확인해볼까요?</p>
+    </div>
+    <div class="quiz-question">
+      <label id="question1">질문 1</label>
+      <input type="text" id="answer1" placeholder="정답을 입력하세요">
+    </div>
+    <div class="quiz-question">
+      <label id="question2">질문 2</label>
+      <input type="text" id="answer2" placeholder="정답을 입력하세요">
+    </div>
+    <button onclick="checkAnswers()" style="margin-top: 20px;">정답 확인</button>
+    <a href="waering/옷.html"><button style="margin-top: 10px;">제출하고 다음으로!</button></a>
+    <div class="check-result" id="resultBox"></div>
+  </div>
+
+  <script>
+    const quizData = [
+      {
+        title: "소년이 온다다",
+        instruction: "책은 어떤 내용이었나요?",
+        questions: [
+          "주인공의 이름름",
+          "사실 아직 안 읽어봄봄"
+        ],
+        answers: ["00", "00"]
+      },
+      {
+        title: "채식주의자자",
+        instruction: "복잡한 관계 속 이야기를 기억해보세요.",
+        questions: [
+          "주인공의 직업은 무엇이었나요?",
+          "그녀는 남편과 이혼을 했을까요?"
+        ],
+        answers: ["00", "00"]
+      },
+      {
+        title: "불변의 법칙칙",
+        instruction: "어렵지는 않으셨나요??",
+        questions: [
+          "주인공이 겪은 사건건",
+          "사실 안 읽어서.."
+        ],
+        answers: ["00", "00"]
+      },
+      {
+        title: "모순순",
+        instruction: "우리의 삶은 모순으로 가득 차 있습니다.",
+        questions: [
+          "주인공이 제일 처음 한 거짓말은?",
+          "주인공의 결핍은?"
+        ],
+        answers: ["00", "00"]
+      }
+    ];
+
+    const selectedIndex = parseInt(localStorage.getItem('selectedBookIndex'));
+    const titleEl = document.getElementById('quiz-title');
+    const instrEl = document.getElementById('quiz-instruction');
+    const q1 = document.getElementById('question1');
+    const q2 = document.getElementById('question2');
+    const resultBox = document.getElementById('resultBox');
+
+    if (!isNaN(selectedIndex) && quizData[selectedIndex]) {
+      const data = quizData[selectedIndex];
+      titleEl.textContent = data.title;
+      instrEl.textContent = data.instruction;
+      q1.textContent = '1. ' + data.questions[0];
+      q2.textContent = '2. ' + data.questions[1];
+    } else {
+      titleEl.textContent = "퀴즈 불러오기 실패";
+      instrEl.textContent = "선택된 책 정보가 없습니다.";
+      q1.textContent = "";
+      q2.textContent = "";
+    }
+
+    function checkAnswers() {
+      const user1 = document.getElementById("answer1").value.trim();
+      const user2 = document.getElementById("answer2").value.trim();
+      const correct = quizData[selectedIndex]?.answers || ["", ""];
+
+      let result = "";
+      result += "1번: " + (user1 === correct[0] ? "정답 🎉" : "오답 ❌") + "<br>";
+      result += "2번: " + (user2 === correct[1] ? "정답 🎉" : "오답 ❌");
+
+      resultBox.innerHTML = result;
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,166 @@
+/* style.css */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Noto Sans', sans-serif;
+  background: linear-gradient(to right, #fdf6e3, #fefae0);
+  color: #4e3b31;
+  overflow-x: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+h1 {
+  text-align: center;
+  font-size: 2.7rem;
+  margin-top: 40px;
+  font-family: 'Georgia', serif;
+  color: #5a4637;
+  animation: fadeInDown 1s ease;
+}
+
+.page {
+  width: 100vw;
+  height: 100vh;
+  padding: 20px;
+}
+
+.book-carousel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+  gap: 40px;
+  animation: fadeIn 1s ease;
+}
+
+.book-item {
+  width: 160px;
+  height: 240px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 16px;
+  opacity: 0.3;
+  transition: opacity 0.5s ease, transform 0.3s ease;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.book-item.active {
+  width: 220px;
+  height: 320px;
+  opacity: 1;
+  transform: scale(1.05);
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.2);
+  background-color: #fffef9;
+}
+
+.carousel-controls {
+  display: flex;
+  justify-content: space-between;
+  width: 60%;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+
+.arrow-btn {
+  font-size: 24px;
+  cursor: pointer;
+  padding: 10px 24px;
+  border: none;
+  background-color: #deb887;
+  color: #fffef9;
+  border-radius: 12px;
+  transition: background-color 0.3s;
+  font-weight: bold;
+}
+
+.arrow-btn:hover {
+  background-color: #c89d75;
+}
+
+button {
+  display: block;
+  margin: 50px auto 0;
+  padding: 14px 28px;
+  font-size: 18px;
+  background-color: #a29bfe;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  animation: fadeInUp 1s ease;
+  font-family: 'Noto Sans', sans-serif;
+}
+
+button:hover {
+  background-color: #7e78d2;
+}
+
+.button-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.button-group button {
+  margin-bottom: 10px;
+  border-radius: 8px;
+  background-color: #a29bfe;
+  font-size: 16px;
+  padding: 10px 20px;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-family: 'Noto Sans', sans-serif;
+}
+
+.button-group button:hover {
+  background-color: #7e78d2;
+}
+
+.character {
+  position: relative;
+}
+
+.character img {
+  width: 100%;
+  height: 100%;
+}
+
+.character .eye,
+.character .hair,
+.character .mouth,
+.character .top,
+.character .down,
+.character .rx {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+}
+
+/* 애니메이션 효과 */
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}

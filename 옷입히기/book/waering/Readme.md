@@ -1,5 +1,4 @@
-git pull origin main --allow-unrelated-histories
-<h1> 웹 프로그래밍 수업 내용을 통해 간단한 웹페이지 생성하기</h1>
+
 <br>
 그림은 직접 그림
 <br>

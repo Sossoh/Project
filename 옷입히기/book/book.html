@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>책 소개 페이지</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .book-layout {
+      display: flex;
+      height: 100vh;
+      background: linear-gradient(to right, #fdf6e3, #fefae0);
+    }
+    .book-cover-half {
+      width: 40%;
+      background: url('Second.jpg') left center/cover no-repeat;
+      border-top-right-radius: 20px;
+      border-bottom-right-radius: 20px;
+    }
+    .book-content {
+      flex: 1;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .book-description {
+      font-size: 1.2rem;
+      line-height: 1.6;
+      color: #5a4637;
+      margin-bottom: 20px;
+    }
+    .comment-section {
+      margin-bottom: 30px;
+    }
+    textarea {
+      width: 100%;
+      height: 100px;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      resize: none;
+      font-family: 'Noto Sans', sans-serif;
+    }
+    .comment-list {
+      max-height: 150px;
+      overflow-y: auto;
+      margin-bottom: 10px;
+      padding-left: 10px;
+    }
+    .comment-item {
+      margin-bottom: 6px;
+      padding: 6px 10px;
+      background: #fff;
+      border-left: 4px solid #a29bfe;
+      border-radius: 6px;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="book-layout">
+    <div class="book-cover-half"></div>
+    <div class="book-content">
+      <div>
+        <h2>책 소개</h2>
+        <p class="book-description"></p>
+      </div>
+      <div class="comment-section">
+        <h3>댓글</h3>
+        <div class="comment-list" id="commentList">
+          <!-- 댓글 목록이 여기에 추가됨 -->
+        </div>
+        <textarea id="commentInput" placeholder="댓글을 입력해 주세요..."></textarea>
+        <button onclick="addComment()">댓글 등록</button>
+      </div>
+      <a href="quiz.html"><button>심도 깊은 대화 → GO!</button></a>
+    </div>
+  </div>
+  <script>
+    const descriptions = [
+      "소년이 온다 - 저자는 이 작품에서 진심 어린 문장들로 무고한 영혼의 말을 대신 전하며 그 시절을 잊고 무심하게 살아가는 우리에게 묵직한 메시지를 던진다. 국가의 무자비함을 생생하게 그려내 지금까지도 우리나라뿐 아니라 전 세계에서 계속되고 있는 인간의 잔혹함과 악행에 대한 근원적인 질문을 던지고, 잊을 수 없는 봄날의 오월을 지나 여름을 건너가지 못한 이들과 살아남은 것이 오히려 치욕으로 여기며 매일을 힘겹게 견뎌내는 이들에게 우리가 어떤 대답을 해줄 수 있는 가를 간절한 목소리로 묻는다. 그리하여 우리가 붙들어야 할 역사적 기억이 무엇인지 생각하게 한다.",
+      "채식주의자 - 『채식주의자』는 어느 날부터 육식을 거부하며 가족들과 갈등을 빚기 시작하는 ‘영혜’가 중심인물로 등장하는 장편소설이다. 하지만 소설은 영혜를 둘러싼 세 인물인 남편, 형부, 언니의 시선에서 서술되며 영혜는 단 한번도 주도적인 화자의 위치를 얻지 못한다. 가족의 이름으로 자행되는 가부장의 폭력, 그리고 그 폭력에 저항하며 금식을 통해 동물성을 벗어던지고 나무가 되고자 한 영혜가 보여주는 식물적 상상력의 경지는 모든 세대 독자를 아우르며 더 크나큰 공명을 이루어낼 것이다.",
+      "불변의 법칙 - 세계적인 베스트셀러 《돈의 심리학》의 저자 모건 하우절이 3년 만에 세상에 내놓은 신작.‘절대 변하지 않는 것들에 대한 23가지 이야기’를 전한다. 출간하자마자 아마존과 뉴욕타임스 베스트셀러 자리에 오르며 아마존 독자들과 오피니언 리더들의 극찬을 받았다.이번 책은 돈과 투자 영역은 물론이고, 인간의 본성과 세상의 이치에 관한 이야기를 두루 다루어 한층 더 다층적이고 복합적인 메시지를 담아냈다는 평가를 받는다. 모건 하우절은 사람들은 무엇이 변할 것인지에 대해 늘 관심을 갖지만, 미래에 대비하기 위해서는 오히려 과거에도 지금도 미래에도 변함이 없는‘불변의 법칙’에 대해 알아야 한다고 강조한다. 이에 1000년 후에도 유효할 인간의 행동양식과 반복패턴에 대한 흥미로운 역사 스토리와 일화들을 들려준다. 워런 버핏의 스니커즈, 빌 게이츠의 숨겨진 불안, 유발 하라리가 받은 뜻밖의 비난, 게임스탑 사태의 보이지 않는 변수, 벌지 전투의 최후, 마술사 후디니의 죽음 등, 한 편 한 편의 이야기가 마치 다큐소설처럼 펼쳐진다. 흥미로운 일화 속에 인간사를 꿰뚫는 통찰과 삶의 교훈을 구슬처럼 꿰어내어 “역시 모건 하우절이다”라는 찬사를 받았다. 스콧 갤러웨이, 라이온 홀리데이는 물론, 국내 유수의 리더들 또한 먼저 읽고 “대단한 책이다”라는 평가를 내놓았다.",
+      "모순 - 시장에서 내복을 팔고 있는 억척스런 어머니와 행방불명 상태로 떠돌다 가끔씩 귀가하는 아버지, 조폭의 보스가 인생의 꿈인 남동생을 가족으로 둔 안진진. 어머니와 일란성 쌍둥이인 이모는 부유하지만 지루한 삶에 지쳐 있고, 가난한 어머니는 처리해야 할 불행들이 많아 지루할 틈이 없다. 안진진은 사뭇 다른 어머니와 이모의 삶을 바라보며 모순투성이인 삶을 어떻게 이해해야 하는지 고민하기 시작하는데…."
+    ];
+
+    const bookImages = ['book1.png', 'book2.png', 'book3.png', 'book4.png'];
+  const index = parseInt(localStorage.getItem('selectedBookIndex'));
+
+  const descBox = document.querySelector('.book-description');
+  const cover = document.querySelector('.book-cover-half');
+
+  if (!isNaN(index) && descriptions[index] && bookImages[index]) {
+    descBox.textContent = descriptions[index];
+    cover.style.backgroundImage = `url('${bookImages[index]}')`;
+  } else {
+    descBox.textContent = '책 정보를 불러올 수 없습니다.';
+  }
+
+  function addComment() {
+    const input = document.getElementById('commentInput');
+    const list = document.getElementById('commentList');
+    const text = input.value.trim();
+    if (text !== '') {
+      const div = document.createElement('div');
+      div.className = 'comment-item';
+      div.textContent = text;
+      list.appendChild(div);
+      input.value = '';
+    }
+  }
+  </script>
+</body>
+</html>
