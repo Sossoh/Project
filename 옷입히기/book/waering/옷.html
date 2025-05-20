@@ -123,5 +123,34 @@
     
 
     <script src="scripts.js"></script>
+    <script>
+  function saveAvatar() {
+    const avatar = {
+      eye: getCurrentPart('eye'),
+      mouth: getCurrentPart('mouth'),
+      hair: getCurrentPart('hair'),
+      top: getCurrentPart('top'),
+      down: getCurrentPart('down'),
+      rx: getCurrentPart('rx')
+    };
+    localStorage.setItem('avatar', JSON.stringify(avatar));
+    alert('캐릭터가 저장되었습니다!');
+  }
+
+  function getCurrentPart(partName) {
+    const parts = document.querySelectorAll(`.${partName}`);
+    for (let part of parts) {
+      if (part.style.display !== 'none') {
+        const img = part.querySelector('img');
+        return img ? img.getAttribute('src').split('/').pop() : '';
+      }
+    }
+    return '';
+  }
+</script>
+
+<button onclick="saveAvatar()">아바타 저장하기</button>
+
+    
 </body>
 </html>

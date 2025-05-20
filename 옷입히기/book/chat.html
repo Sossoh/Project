@@ -3,20 +3,148 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>채팅</title>
-  <link rel="stylesheet" href="style.css">
+  <title>채팅장</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Noto Sans', sans-serif;
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      height: 100vh;
+    }
+    .left-half {
+      width: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      position: relative;
+      padding-bottom: 60px;
+    }
+    .avatar,
+    .background-avatar {
+      width: 120px;
+      height: 240px;
+      position: absolute;
+    }
+    .avatar {
+      right: 20px;
+    }
+    .background-avatar {
+      left: 40px;
+      opacity: 0.95;
+    }
+    .avatar img,
+    .background-avatar img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+    }
+    .right-half {
+      width: 50%;
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      overflow-y: auto;
+    }
+    .chat-title {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+    }
+    .chat-box {
+      height: 70vh;
+      border: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 8px;
+      overflow-y: scroll;
+      background-color: #fff;
+    }
+    .chat-input {
+      display: flex;
+      margin-top: 10px;
+    }
+    .chat-input input {
+      flex: 1;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #aaa;
+    }
+    .chat-input button {
+      margin-left: 10px;
+      padding: 10px 16px;
+      background-color: #a29bfe;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-  <div class="chat-container">
-    <div class="avatar-area"></div>
-    <div class="chat-area">
-      <div class="chat-messages" id="chatMessages"></div>
-      <div class="chat-input">
-        <input type="text" id="chatInput" placeholder="메시지를 입력하세요">
-        <button onclick="sendMessage()">전송</button>
-      </div>
+  <div class="left-half">
+    <div class="background-avatar" id="backgroundAvatar"></div>
+    <div class="avatar" id="avatar"></div>
+  </div>
+  <div class="right-half">
+    <div class="chat-title">📚 독서 만담 채팅창</div>
+    <div class="chat-box" id="chatBox"></div>
+    <div class="chat-input">
+      <input type="text" id="chatInput" placeholder="메시지를 입력하세요...">
+      <button onclick="sendMessage()">전송</button>
     </div>
   </div>
-  <script src="script.js"></script>
+
+  <script>
+    // 배경 이미지 경로
+    const bgImages = ['bg-cat.jpg', 'bg-veg.jpg', 'bg-law.jpg', 'bg-mosun.jpg'];
+    const bookIndex = parseInt(localStorage.getItem('selectedBookIndex'));
+    if (!isNaN(bookIndex)) {
+      document.body.style.backgroundImage = `url('${bgImages[bookIndex]}')`;
+    }
+
+    // 아바타 로드 (앞쪽 아바타와 배경용 아바타 두 개 생성)
+    const avatarData = JSON.parse(localStorage.getItem('avatar'));
+    const avatarDiv = document.getElementById('avatar');
+    const bgAvatarDiv = document.getElementById('backgroundAvatar');
+
+    function renderAvatar(targetDiv) {
+      if (avatarData) {
+        for (const [key, fileName] of Object.entries(avatarData)) {
+          const img = document.createElement('img');
+          img.src = `${getFolder(key)}/${fileName}`;
+          targetDiv.appendChild(img);
+        }
+      }
+    }
+
+    renderAvatar(avatarDiv);
+    renderAvatar(bgAvatarDiv);
+
+    function getFolder(type) {
+      switch(type) {
+        case 'eye': return '눈';
+        case 'mouth': return '입';
+        case 'hair': return '머리';
+        case 'top': return '상의';
+        case 'down': return '하의';
+        case 'rx': return '겉옷';
+        default: return '';
+      }
+    }
+
+    // 간단한 채팅 기능
+    function sendMessage() {
+      const input = document.getElementById('chatInput');
+      const box = document.getElementById('chatBox');
+      const text = input.value.trim();
+      if (text) {
+        const msg = document.createElement('div');
+        msg.textContent = '🧍: ' + text;
+        box.appendChild(msg);
+        input.value = '';
+        box.scrollTop = box.scrollHeight;
+      }
+    }
+  </script>
 </body>
 </html>
