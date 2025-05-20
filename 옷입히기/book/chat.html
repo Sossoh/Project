@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>채팅장</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>독서 만담 채팅창</title>
   <style>
     body {
       margin: 0;
@@ -45,38 +45,45 @@
       width: 50%;
       background-color: rgba(255, 255, 255, 0.9);
       padding: 20px;
-      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
     .chat-title {
       font-size: 1.5rem;
       margin-bottom: 10px;
     }
     .chat-box {
-      height: 70vh;
+      flex: 1;
       border: 1px solid #ccc;
       padding: 10px;
       border-radius: 8px;
       overflow-y: scroll;
       background-color: #fff;
+      margin-bottom: 10px;
     }
     .chat-input {
       display: flex;
-      margin-top: 10px;
     }
     .chat-input input {
       flex: 1;
       padding: 10px;
       border-radius: 6px;
       border: 1px solid #aaa;
+      font-size: 16px;
     }
     .chat-input button {
       margin-left: 10px;
-      padding: 10px 16px;
+      padding: 10px 20px;
       background-color: #a29bfe;
       color: white;
       border: none;
       border-radius: 6px;
       cursor: pointer;
+      font-size: 16px;
+    }
+    .chat-input button:hover {
+      background-color: #7e78d2;
     }
   </style>
 </head>
@@ -89,50 +96,69 @@
     <div class="chat-title">📚 독서 만담 채팅창</div>
     <div class="chat-box" id="chatBox"></div>
     <div class="chat-input">
-      <input type="text" id="chatInput" placeholder="메시지를 입력하세요...">
+      <input type="text" id="chatInput" placeholder="메시지를 입력하세요..." />
       <button onclick="sendMessage()">전송</button>
     </div>
   </div>
 
   <script>
-    // 배경 이미지 경로
+    // 배경 이미지 경로 (책별)
     const bgImages = ['bg-cat.jpg', 'bg-veg.jpg', 'bg-law.jpg', 'bg-mosun.jpg'];
     const bookIndex = parseInt(localStorage.getItem('selectedBookIndex'));
     if (!isNaN(bookIndex)) {
       document.body.style.backgroundImage = `url('${bgImages[bookIndex]}')`;
     }
 
-    // 아바타 로드 (앞쪽 아바타와 배경용 아바타 두 개 생성)
+    // 아바타 데이터 로드
     const avatarData = JSON.parse(localStorage.getItem('avatar'));
     const avatarDiv = document.getElementById('avatar');
     const bgAvatarDiv = document.getElementById('backgroundAvatar');
 
+    // 폴더 매핑 함수
+    function getFolder(type) {
+      switch(type) {
+        case 'eye': return 'eye';
+        case 'mouth': return 'mouth';
+        case 'hair': return 'hair';
+        case 'top': return 'up';
+        case 'down': return 'underr';
+        case 'rx': return 'outer';
+        case 'body': return 'body';
+        default: return '';
+      }
+    }
+
     function renderAvatar(targetDiv) {
-      if (avatarData) {
-        for (const [key, fileName] of Object.entries(avatarData)) {
-          const img = document.createElement('img');
-          img.src = `${getFolder(key)}/${fileName}`;
-          targetDiv.appendChild(img);
-        }
+      if (!avatarData) return;
+
+      // 기본 body 이미지 항상 맨 아래에 깔기
+      const defaultBodyImg = document.createElement('img');
+      defaultBodyImg.src = 'waering/body/b1.png';
+      defaultBodyImg.alt = 'default body';
+      targetDiv.appendChild(defaultBodyImg);
+
+      // body가 따로 지정돼 있으면 덮어씌우기 (선택사항)
+      if (avatarData.body) {
+        const bodyImg = document.createElement('img');
+        bodyImg.src = `waering/body/${avatarData.body}`;
+        bodyImg.alt = 'body';
+        targetDiv.appendChild(bodyImg);
+      }
+
+      // 나머지 부위 그 위에 쌓기
+      for (const [key, fileName] of Object.entries(avatarData)) {
+        if (key === 'body') continue;
+        const img = document.createElement('img');
+        img.src = `waering/${getFolder(key)}/${fileName}`;
+        img.alt = key;
+        targetDiv.appendChild(img);
       }
     }
 
     renderAvatar(avatarDiv);
     renderAvatar(bgAvatarDiv);
 
-    function getFolder(type) {
-      switch(type) {
-        case 'eye': return '눈';
-        case 'mouth': return '입';
-        case 'hair': return '머리';
-        case 'top': return '상의';
-        case 'down': return '하의';
-        case 'rx': return '겉옷';
-        default: return '';
-      }
-    }
-
-    // 간단한 채팅 기능
+    // 채팅 전송 함수
     function sendMessage() {
       const input = document.getElementById('chatInput');
       const box = document.getElementById('chatBox');

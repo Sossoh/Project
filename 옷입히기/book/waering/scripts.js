@@ -57,3 +57,4 @@ function changeRx(rxId) {
     const selectedRx = document.getElementById(rxId);
     selectedRx.style.display = 'block';
 }
+img.src = `waering/${getFolder(key)}/${fileName}`;
